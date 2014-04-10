@@ -1,0 +1,32 @@
+{
+  "name": "svc-init",
+  "version": "0.0.0",
+  "description": "init daemon with http interface",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Jacob Groundwater <groundwater@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lib-init": "^0.1.1",
+    "lib-http-rpc": "^0.2.2",
+    "lib-api-init": "0.0.0",
+    "lib-stream-solidify": "0.0.1",
+    "lib-stream-liquify": "0.0.1"
+  },
+  "devDependencies": {
+    "tap": "^0.4.8"
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/groundwater/node-svc-init.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groundwater/node-svc-init/issues"
+  },
+  "homepage": "https://github.com/groundwater/node-svc-init"
+}

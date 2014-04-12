@@ -9,7 +9,7 @@
   "author": "Jacob Groundwater <groundwater@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "lib-init": "^0.2.0",
+    "lib-init": "^0.2.1",
     "lib-http-rpc": "^0.2.2",
     "lib-api-init": "0.0.0",
     "lib-stream-solidify": "0.0.1",
@@ -17,7 +17,9 @@
     "lib-checked-domain": "0.0.0"
   },
   "devDependencies": {
-    "tap": "^0.4.8"
+    "tap": "^0.4.8",
+    "nodemock": "^0.3.3",
+    "lib-stream-future": "^0.1.1"
   },
   "main": "index.js",
   "directories": {

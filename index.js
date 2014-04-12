@@ -11,6 +11,11 @@ Server.prototype.getJobs = function (stream) {
   liquify(this.init.list()).pipe(stream);
 };
 
+Server.prototype.clearJob = function (stream, params) {
+  this.init.clear('test');
+  stream.end();
+};
+
 Server.prototype.queueTasks = function (stream, params) {
   var name;
   assert(name = params.name, 'name required');

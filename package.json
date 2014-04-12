@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "init daemon with http interface",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "tap test"
   },
   "author": "Jacob Groundwater <groundwater@gmail.com>",
   "license": "MIT",

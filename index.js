@@ -33,7 +33,7 @@ Server.prototype.queueTasks = function (stream, params) {
 Server.New = function () {
   var server = new Server;
 
-  server.init = this.Init.New();
+  server.init = this.Init();
 
   return server;
 }
@@ -47,9 +47,12 @@ function inject(deps) {
 }
 
 function defaults() {
+  var Init = require('lib-init')();
   return {
     Init : {
-      value: require('lib-init')()
+      value: function() {
+        return Init.New();
+      }
     }
   };
 }

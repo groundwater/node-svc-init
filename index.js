@@ -41,7 +41,21 @@ Server.prototype.streamJob = function (stream, params) {
 
   job.stdout.pipe(stream);
   job.stderr.pipe(stream);
-}
+};
+
+Server.prototype.waitJob = function (stream, params) {
+  var job = this.init.get('test');
+
+  if (!job) throw checked.Error('NotFound', 'job not found');
+
+  if (job.queue.running) {
+    job.queue.on('empty', function(){
+      stream.end();
+    })
+  } else {
+    stream.end();
+  }
+};
 
 /*
   Initializers

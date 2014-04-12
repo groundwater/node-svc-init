@@ -1,6 +1,7 @@
 var assert   = require('assert');
 var liquify  = require('lib-stream-liquify')
 var solidify = require('lib-stream-solidify')
+var checked  = require('lib-checked-domain')();
 
 function Server() {
   this.init = null;
@@ -30,6 +31,17 @@ Server.prototype.getJob = function (stream, params) {
   var job = this.init.get('test');
   liquify(job.status()).pipe(stream);
 };
+
+Server.prototype.streamJob = function (stream, params) {
+  var name = params.name;
+
+  var job = this.init.get(name);
+
+  if (!job) throw checked.Error('NotFound', 'job not found');
+
+  job.stdout.pipe(stream);
+  job.stderr.pipe(stream);
+}
 
 /*
   Initializers

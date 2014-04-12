@@ -49,7 +49,11 @@ Server.prototype.streamJob = function (stream, params) {
 };
 
 Server.prototype.waitJob = function (stream, params) {
-  var job = this.init.get('test');
+  var name = params.name;
+
+  assert(name, 'name parameter required');
+
+  var job = this.init.get(name);
 
   if (!job) throw checked.Error('NotFound', 'job not found');
 
@@ -60,6 +64,19 @@ Server.prototype.waitJob = function (stream, params) {
   } else {
     stream.end();
   }
+};
+
+Server.prototype.stopJob = function (stream, params) {
+  var name = params.name;
+
+  assert(name, 'name parameter required');
+
+  var job = this.init.get('test')
+
+  if (!job) throw checked.Error('NotFound', 'job not found');
+
+  job.abort();
+  stream.end();
 };
 
 /*

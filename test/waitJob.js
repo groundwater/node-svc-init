@@ -6,6 +6,22 @@ var future   = require('lib-stream-future');
 var check    = require('lib-checked-domain')();
 var nodemock = require('nodemock');
 
+test("throw a name not specified", function (t){
+  var Server = require('../index.js')({
+    Init: {
+      value: function() {
+        return nodemock.mock('get').takes('test').returns();
+      }
+    }
+  });
+  var server = Server.New();
+  var stream = future();
+  t.throws(function () {
+    server.waitJob(stream, {});
+  }, new assert.AssertionError({message: 'name parameter required'}))
+  t.end()
+});
+
 test("throw a NotFound if job not found", function (t){
   var Server = require('../index.js')({
     Init: {

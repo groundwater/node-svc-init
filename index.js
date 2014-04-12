@@ -1,6 +1,6 @@
 var assert   = require('assert');
-var liquify  = require('lib-stream-liquify')
-var solidify = require('lib-stream-solidify')
+var liquify  = require('lib-stream-liquify');
+var solidify = require('lib-stream-solidify');
 var checked  = require('lib-checked-domain')();
 
 function Server() {
@@ -11,7 +11,7 @@ Server.prototype.getJobs = function (stream) {
   liquify(this.init.list()).pipe(stream);
 };
 
-Server.prototype.clearJob = function (stream, params) {
+Server.prototype.clearJob = function (stream) {
   this.init.clear('test');
   stream.end();
 };
@@ -32,7 +32,7 @@ Server.prototype.queueTasks = function (stream, params) {
   });
 };
 
-Server.prototype.getJob = function (stream, params) {
+Server.prototype.getJob = function (stream) {
   var job = this.init.get('test');
   liquify(job.status()).pipe(stream);
 };
@@ -60,7 +60,7 @@ Server.prototype.waitJob = function (stream, params) {
   if (job.queue.running) {
     job.queue.on('empty', function(){
       stream.end();
-    })
+    });
   } else {
     stream.end();
   }
@@ -71,7 +71,7 @@ Server.prototype.stopJob = function (stream, params) {
 
   assert(name, 'name parameter required');
 
-  var job = this.init.get('test')
+  var job = this.init.get('test');
 
   if (!job) throw checked.Error('NotFound', 'job not found');
 
@@ -84,12 +84,12 @@ Server.prototype.stopJob = function (stream, params) {
 */
 
 Server.New = function () {
-  var server = new Server;
+  var server = new Server();
 
   server.init = this.Init();
 
   return server;
-}
+};
 
 /*
   Inject

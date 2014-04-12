@@ -9,7 +9,7 @@
   "author": "Jacob Groundwater <groundwater@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "lib-init": "^0.1.1",
+    "lib-init": "^0.2.0",
     "lib-http-rpc": "^0.2.2",
     "lib-api-init": "0.0.0",
     "lib-stream-solidify": "0.0.1",

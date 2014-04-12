@@ -26,6 +26,11 @@ Server.prototype.queueTasks = function (stream, params) {
   });
 };
 
+Server.prototype.getJob = function (stream, params) {
+  var job = this.init.get('test');
+  liquify(job.status()).pipe(stream);
+};
+
 /*
   Initializers
 */

@@ -3,7 +3,28 @@ var test     = require('tap').test;
 var solidify = require('lib-stream-solidify');
 var liquify  = require('lib-stream-liquify');
 var future   = require('lib-stream-future')
+var checked  = require('lib-checked-domain')();
 var nodemock = require('nodemock');
+
+test("unknown job", function (t){
+  var Server = require('../index.js')({
+    Init: {
+      value: function() {
+        return nodemock.mock('get').takes('test').returns()
+      }
+    }
+  });
+
+  var server = Server.New();
+  var stream = future();
+
+  checked(function () {
+    server.getJob(stream, {name: 'test'});
+  })
+  .on('NotFound', function(){
+    t.end();
+  })
+});
 
 test("status of a job", function (t){
 

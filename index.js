@@ -23,7 +23,9 @@ Server.prototype.queueTasks = function (stream, params) {
   var init = this.init;
 
   solidify(stream).json(function (err, body) {
-    if (err) throw err;
+
+    // TODO: test
+    if (err) throw checked.Error('BadRequest', err.message);
 
     var job = init.queue(name, body);
 
@@ -34,6 +36,9 @@ Server.prototype.queueTasks = function (stream, params) {
 
 Server.prototype.getJob = function (stream) {
   var job = this.init.get('test');
+
+  if (!job) throw checked.Error('NotFound', 'job not found');
+
   liquify(job.status()).pipe(stream);
 };
 

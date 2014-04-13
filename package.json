@@ -12,7 +12,7 @@
     "lib-init": "^0.2.1",
     "lib-http-rpc": "^0.2.2",
     "lib-api-init": "0.0.0",
-    "lib-stream-solidify": "0.0.1",
+    "lib-stream-solidify": "^0.1.0",
     "lib-stream-liquify": "0.0.1",
     "lib-checked-domain": "0.0.0"
   },

@@ -6,15 +6,20 @@
     "start": "node server.js",
     "test": "tap test"
   },
+  "bin": {
+    "node-initctl": "node-initctl.js"
+  },
   "author": "Jacob Groundwater <groundwater@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "lib-init": "^0.2.1",
-    "lib-http-rpc": "^0.2.2",
     "lib-api-init": "0.0.0",
-    "lib-stream-solidify": "^0.1.0",
+    "lib-checked-domain": "0.0.0",
+    "lib-http-rpc": "^0.2.2",
+    "lib-init": "^1.0.0",
     "lib-stream-liquify": "0.0.1",
-    "lib-checked-domain": "0.0.0"
+    "lib-stream-solidify": "^0.1.0",
+    "martini": "^0.1.2",
+    "minimist": "^1.1.0"
   },
   "devDependencies": {
     "tap": "^0.4.8",

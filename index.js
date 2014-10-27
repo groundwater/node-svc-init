@@ -1,120 +1,61 @@
-var assert   = require('assert');
-var liquify  = require('lib-stream-liquify');
-var solidify = require('lib-stream-solidify');
-var checked  = require('lib-checked-domain')();
+var assert   = require('assert')
+var liquify  = require('lib-stream-liquify')
+var solidify = require('lib-stream-solidify')
 
 function Server() {
-  this.init = null;
+  this.init = null
 }
-
-Server.prototype.getJobs = function (stream) {
-  liquify(this.init.list()).pipe(stream);
-};
-
-Server.prototype.clearJob = function (stream) {
-  this.init.clear('test');
-  stream.end();
-};
-
-Server.prototype.queueTasks = function (stream, params) {
-  var name;
-  assert(name = params.name, 'name required');
-
-  var init = this.init;
-
-  solidify(stream).json(function (err, body) {
-
-    // TODO: test
-    if (err) throw checked.Error('BadRequest', err.message);
-
-    var job = init.queue(name, body);
-
-    job.stdout.pipe(stream);
-    job.stderr.pipe(stream);
-  });
-};
-
-Server.prototype.getJob = function (stream) {
-  var job = this.init.get('test');
-
-  if (!job) throw checked.Error('NotFound', 'job not found');
-
-  liquify(job.status()).pipe(stream);
-};
-
-Server.prototype.streamJob = function (stream, params) {
-  var name = params.name;
-
-  var job = this.init.get(name);
-
-  if (!job) throw checked.Error('NotFound', 'job not found');
-
-  job.stdout.pipe(stream);
-  job.stderr.pipe(stream);
-};
-
-Server.prototype.waitJob = function (stream, params) {
-  var name = params.name;
-
-  assert(name, 'name parameter required');
-
-  var job = this.init.get(name);
-
-  if (!job) throw checked.Error('NotFound', 'job not found');
-
-  if (job.queue.running) {
-    job.queue.on('empty', function(){
-      stream.end();
-    });
-  } else {
-    stream.end();
-  }
-};
-
-Server.prototype.stopJob = function (stream, params) {
-  var name = params.name;
-
-  assert(name, 'name parameter required');
-
-  var job = this.init.get('test');
-
-  if (!job) throw checked.Error('NotFound', 'job not found');
-
-  job.abort();
-  stream.end();
-};
 
 /*
   Initializers
 */
 
 Server.New = function () {
-  var server = new Server();
+  var server = new Server()
 
-  server.init = this.Init();
+  server.init = this.Init()
 
-  return server;
-};
+  return server
+}
+
+Server.prototype.createJob = function (job, args) {
+  console.log('Create Job')
+
+  job.tasks.forEach(function(task){
+    console.log('Adding Task to Queue', args.name)
+    console.dir(task)
+
+    this.init.queue(args.name, task)
+    .emitter
+    .once('exit', console.log)
+  }, this)
+}
+
+Server.prototype.abortJobs = function (_, args) {
+  console.log('Aborting Queue', args.name)
+
+  this.init.abort(args.name)
+}
 
 /*
   Inject
 */
 
 function inject(deps) {
-  return Object.create(Server, deps);
+  return Object.create(Server, deps)
 }
 
 function defaults() {
-  var Init = require('lib-init')();
+  var Init = require('lib-init')()
   return {
     Init : {
       value: function() {
-        return Init.New();
+        return Init.New()
       }
     }
-  };
+  }
 }
 
 module.exports = function INIT(deps) {
-  return inject(deps || defaults());
-};
+  return inject(deps || defaults())
+}
